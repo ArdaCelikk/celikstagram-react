@@ -16,6 +16,7 @@ try {
         res.locals.user = {
           id: user.id,
           username: user.username,
+          email: user.email,
           name: user.name,
           adress: user.adress,
           following: JSON.parse(user.following),
@@ -39,7 +40,7 @@ try {
 
 const authenticateToken = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    const token = req.cookies.token;
 
     if (token) {
       jwt.verify(token, process.env.JWT_PASSWORD, (err) => {

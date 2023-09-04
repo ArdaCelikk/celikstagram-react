@@ -11,12 +11,15 @@ const Informations = (props) => {
     const defaultUser = { id: "", username: "", name: "", adress: "", profile_photo: "", followers: "", following: "", };
     const [user, setUser] = useState(defaultUser)
     const [diffrentUser, setDiffrentUser] = useState(false)
-    const reducerUser = useSelector((state) => state.user.user);
+    const [btnText, setBtnText] = useState("edit")
+    const loggedUser = useSelector((state) => state.user.user);
     const navigate = useNavigate()
 
+    // USER LOGGED?
+    // IF ITS OTHER USER PROFILE TAKES A USER INFORMATİONS
     useEffect(() => {
         try {
-            if(reducerUser.following) {
+            if(loggedUser.following) {
                 if(diffrentUser) {
                     const getUserInformations = async ()=>{
                         try {
@@ -31,12 +34,12 @@ const Informations = (props) => {
                                 navigate("/")
                             }
                         } catch (error) {
-                            
+                            navigate("/404")
                         }
                     }
                     getUserInformations()
                 } else {
-                    setUser(reducerUser);
+                    setUser(loggedUser);
                 }
             } else {
                 navigate("/login")
@@ -44,8 +47,10 @@ const Informations = (props) => {
         } catch (error) {
             console.error("Please login.")
         }
-    }, [reducerUser, props, diffrentUser, navigate]); 
+    }, [loggedUser, props, diffrentUser, navigate]); 
 
+
+    // OWN PROFILE OR DIFFRENT USER PROFILE CHECK
     useEffect(()=>{
         try {
             if(props.params.username) {
@@ -57,6 +62,41 @@ const Informations = (props) => {
             
         }
     },[props, navigate])
+
+
+    // SETTING BUTTON TEXT 
+    useEffect(()=>{
+        try {
+            if(diffrentUser && user.followers.includes(loggedUser.id)) {
+                setBtnText("unfollow")
+            } else if(diffrentUser) {
+                setBtnText("follow")
+            } else {
+                setBtnText("edit")
+            }
+        } catch (error) {
+            
+        }
+    },[user.followers, diffrentUser,loggedUser.id]) 
+
+    const followButtonClick = async ()=>{
+        try {
+            if(diffrentUser) {
+                const res = await axios.post(`/user/follow/${user.id}`,{follow: user.followers.includes(loggedUser.id)})
+                if(res.data.succeded) {
+                    navigate(`/profile/${props.params.username}`)
+                } else {
+                    console.log(res.data.msg);
+                }
+            } else {
+                // THERE İS EDIT PROFILE ACTIONS COMES
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
 
 
   return (
@@ -71,10 +111,8 @@ const Informations = (props) => {
                 </div>
                 <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                     <div className="py-6 px-3 mt-32 sm:mt-0">
-                    <button className="bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button">
-                        {
-                            diffrentUser ? "Follow" : "Edit"
-                        }
+                    <button onClick={followButtonClick} className="bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button">
+                        {btnText}
                     </button>
                     </div>
                 </div>

@@ -9,6 +9,8 @@ import App from './components/index/App';
 import Profile from './components/profile/Profile';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import NotFoundPage from './components/NotFoundPage';
+import EditProfile from './components/profile/EditProfile';
 
 
 
@@ -31,12 +33,16 @@ const router = createBrowserRouter([
     element: <Profile />,
   },
   {
+    path: "/profile/edit",
+    element: <EditProfile />
+  },
+  {
     path: "/profile/:username",
     element: <Profile />
   },
   {
     path: "*",
-    element: <div>404</div>
+    element: <NotFoundPage />
   }
 ])
 
