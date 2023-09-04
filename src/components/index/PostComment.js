@@ -8,7 +8,7 @@ import React from 'react'
 const PostComment = (props) => {
   const user = useSelector((state) => state.user.user)
   return (
-        <div className="relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
+        <div className="relative flex items-center self-center w-full max-w-xxl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
             <img className="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" alt="" src={user.profile_photo} />
             <span className="absolute inset-y-0 right-0 flex items-center pr-6">
                 <button type="submit" className="p-1 focus:outline-none focus:shadow-none hover:text-blue-500">

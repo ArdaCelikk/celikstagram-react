@@ -43,8 +43,10 @@ const registerUser = async (req,res)=>{
 
 const loginUser = async (req,res) =>{
     try {
+        console.log(req.body);
         const {username,password} = req.body
-        const checkUsername = await User.findOne({username})
+        const checkUsername = await User.findOne({where:{username:username}})
+        console.log(checkUsername);
         if(checkUsername) {
             const comparePassword = await bcrypt.compare(password,checkUsername.password)
             if(comparePassword) {
@@ -75,8 +77,47 @@ const loginUser = async (req,res) =>{
     }
 }
 
+const diffrentUserProfile = async (req,res)=>{
+    try {
+        const {username} = req.body
+        console.log(username);
+        console.log(res.locals.user.username);
+        
+        if(username === res.locals.user.username) {
+            res.status(200).json({
+                succeded:true,
+                sameAccount: true,
+                msg: "Same account."
+            })
+        } else {
+            const user = await User.findOne({where: {username: username}})
+            const {following, followers } = user
+            user.following = JSON.parse(following)
+            user.followers = JSON.parse(followers)
+            if(user) {
+                res.status(200).json({
+                    succeded: true,
+                    user,
+                    msg: "User finded and sended."
+                })
+            } else {
+                res.status(404).json({
+                    succeded: false,
+                    message: "User not exist."
+                })
+            }
+
+        }
+    } catch (error) {
+        res.status(500).json({
+            succeded:false,
+            msg: error.message
+        })
+    }
+}
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    diffrentUserProfile
 }

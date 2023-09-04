@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import celikstagram from "../assets/celikstagram.png"
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import withRouter from './withRouter'
 
-export default class Login extends Component {
+class Login extends Component {
 
 
     constructor (props) {
@@ -14,21 +15,36 @@ export default class Login extends Component {
         }
     }
 
+    async componentDidMount() {
+        try {
+            const {navigate} = this.props
+            const res = await axios.post("/informations/userinformations") 
+            if(res.data.succeded) {
+                if(res.data.user){
+                    navigate("/")
+                }
+            }
+        } catch (error) {
+            console.log("Something going wrong. Please try later.");
+        }
+    }
+
     async onFormSubmit(e) {
         e.preventDefault()
         try {
-            
-
+            const {navigate} = this.props
             const user = {
                 username: e.target.username.value,
                 password: e.target.password.value
             }
             const req = await axios.post("/account/login", user)
-            console.log(req.status);
             if(req.data.succeded) {
                 this.setState({
                     alert: req.data.msg
                 })
+                setTimeout(()=>{
+                    navigate("/")
+                },750)
             } else {
                 this.setState({
                     alert: req.data.msg
@@ -53,10 +69,10 @@ export default class Login extends Component {
     return (
         <>
         <div
-            class="min-h-screen flex flex-col items-center justify-center bg-gray-100"
+            className="min-h-screen flex flex-col items-center justify-center bg-gray-100"
             >
             <div
-                class="
+                className="
                 flex flex-col
                 bg-white
                 shadow-md
@@ -70,24 +86,24 @@ export default class Login extends Component {
                 max-w-md
                 "
             >
-                <div class="font-medium self-center text-xl sm:text-3xl text-gray-800">
+                <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">
                     <img className='h-24' src={celikstagram} alt="" />
                 </div>
-                <div class="mt-4 self-center text-xl sm:text-sm text-gray-800">
+                <div className="mt-4 self-center text-xl sm:text-sm text-gray-800">
                 Enter your credentials to get access account
                 </div>
 
-                <div class="mt-10">
+                <div className="mt-10">
                 <form onSubmit={this.onFormSubmit}>
-                    <div class="flex flex-col mb-5">
+                    <div className="flex flex-col mb-5">
                     <label
-                        for="username"
-                        class="mb-1 text-xs tracking-wide text-gray-600"
+                        htmlFor="username"
+                        className="mb-1 text-xs tracking-wide text-gray-600"
                         >Username:</label
                     >
-                    <div class="relative">
+                    <div className="relative">
                         <div
-                        class="
+                        className="
                             inline-flex
                             items-center
                             justify-center
@@ -99,14 +115,14 @@ export default class Login extends Component {
                             text-gray-400
                         "
                         >
-                        <i class="fas fa-at text-blue-500"></i>
+                        <i className="fas fa-at text-blue-500"></i>
                         </div>
 
                         <input
                         id="username"
                         type="text"
                         name="username"
-                        class="
+                        className="
                             text-sm
                             placeholder-gray-500
                             pl-10
@@ -121,15 +137,15 @@ export default class Login extends Component {
                         />
                     </div>
                     </div>
-                    <div class="flex flex-col mb-6">
+                    <div className="flex flex-col mb-6">
                     <label
-                        for="password"
-                        class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
+                        htmlFor="password"
+                        className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
                         >Password:</label
                     >
-                    <div class="relative">
+                    <div className="relative">
                         <div
-                        class="
+                        className="
                             inline-flex
                             items-center
                             justify-center
@@ -142,7 +158,7 @@ export default class Login extends Component {
                         "
                         >
                         <span>
-                            <i class="fas fa-lock text-blue-500"></i>
+                            <i className="fas fa-lock text-blue-500"></i>
                         </span>
                         </div>
 
@@ -150,7 +166,7 @@ export default class Login extends Component {
                         id="password"
                         type="password"
                         name="password"
-                        class="
+                        className="
                             text-sm
                             placeholder-gray-500
                             pl-10
@@ -168,10 +184,10 @@ export default class Login extends Component {
 
                     <p className='flex mt-2 items-center justify-center focus:outline-none text-sm sm:text-base py-2 w-full'>{this.state.alert}</p>
 
-                    <div class="flex w-full">
+                    <div className="flex w-full">
                     <button
                         type="submit"
-                        class="
+                        className="
                         flex
                         mt-2
                         items-center
@@ -189,14 +205,14 @@ export default class Login extends Component {
                         ease-in
                         "
                     >
-                        <span class="mr-2 uppercase">Sign In</span>
+                        <span className="mr-2 uppercase">Sign In</span>
                         <span>
                         <svg
-                            class="h-6 w-6"
+                            className="h-6 w-6"
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
                         >
@@ -210,30 +226,21 @@ export default class Login extends Component {
                 </form>
                 </div>
             </div>
-            <div class="flex justify-center items-center mt-6">
-                <Link
-                to="/login"
-                target="_blank"
-                class="
-                    inline-flex
-                    items-center
-                    text-gray-700
-                    font-medium
-                    text-xs text-center
-                "
-                >
-                <span class="ml-2"
+            <div className="flex justify-center items-center mt-6">
+                <span className="ml-2"
                     >You don't have an account?
                     <Link
                     to="/register"
-                    class="text-xs ml-2 text-blue-500 font-semibold"
+                    className="text-xs ml-2 text-blue-500 font-semibold"
                     >Regsiter here</Link
                     ></span
                 >
-                </Link>
             </div>
             </div>
         </>
     )
   }
 }
+
+
+export default withRouter(Login)

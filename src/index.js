@@ -33,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/profile/:username",
     element: <Profile />
+  },
+  {
+    path: "*",
+    element: <div>404</div>
   }
 ])
 

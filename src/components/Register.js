@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import celikstagram from "../assets/celikstagram.png"
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import withRouter from './withRouter'
 
-export default class Login extends Component {
+class Register extends Component {
 
     constructor(props) {
         super(props)
@@ -13,10 +14,25 @@ export default class Login extends Component {
             alert: ""
         }
     }
+    
+    async componentDidMount() {
+        try {
+            const {navigate} = this.props
+            const res = await axios.post("/informations/userinformations") 
+            if(res.data.succeded) {
+                if(res.data.user){
+                    navigate("/")
+                }
+            }
+        } catch (error) {
+            console.log("Something going wrong. Please try later.");
+        }
+    }
 
     async onFormSubmit(e) {
         try {
             e.preventDefault();
+            const {navigate} = this.props
             const user = {
                 name:  e.target.name.value,
                 username: e.target.username.value,
@@ -30,7 +46,7 @@ export default class Login extends Component {
                 })
                 e.target.submit.value = "Redirecting..."
                 setTimeout(() => {
-                    window.location.href = "/login"
+                    navigate("/login")
                 }, 1000);
             } else {
                 this.setState({
@@ -228,17 +244,6 @@ export default class Login extends Component {
                 </div>
             </div>
             <div className="flex justify-center items-center mt-6">
-                <Link
-                to="/login"
-                target="_blank"
-                className="
-                    inline-flex
-                    items-center
-                    text-gray-700
-                    font-medium
-                    text-xs text-center
-                "
-                >
                 <span className="ml-2"
                     >You have an account?
                     <Link
@@ -247,10 +252,11 @@ export default class Login extends Component {
                     >Login here</Link
                     ></span
                 >
-                </Link>
             </div>
             </div>
         </>
     )
   }
 }
+
+export default withRouter(Register)
