@@ -45,6 +45,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      bio: {
+        type: Sequelize.STRING
+      },
       profile_photo: {
         type: Sequelize.STRING,
         allowNull: false,

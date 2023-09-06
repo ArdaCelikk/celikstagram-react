@@ -3,6 +3,7 @@ const express = require("express");
 const accountRouter = require("./routers/accountRouter")
 const informationsRouter = require("./routers/informationsRouter")
 const userRouter = require("./routers/userRouter")
+const postsRouter = require("./routers/postsRouter")
 require("dotenv").config()
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use("/account", accountRouter)
 app.use("/informations", informationsRouter)
 app.use("/user", userRouter)
+app.use("/post", postsRouter)
 
 
 app.listen(port,()=>{

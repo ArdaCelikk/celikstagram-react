@@ -17,10 +17,10 @@ const followUser = async (req,res)=>{
 
 
             if(updateLoggedUser && updateUser) {
-                res.status(200).json({
-                    succeded:true,
-                    msg: "Unfollowed"
-                })
+                    res.status(200).json({
+                        succeded:true,
+                        msg: "Unfollowed"
+                    })
             }
 
 

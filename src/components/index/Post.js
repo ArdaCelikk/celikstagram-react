@@ -11,12 +11,16 @@ export default class Post extends Component {
   render() {
     return (
         <div className="bg-white shadow rounded-lg mb-6">
-            <PostHeader />
-            <PostImg />
-            <PostDescription />
-            <PostActions />
+            <PostHeader createdAt={this.props.createdAt} user={this.props.user} />
+            {
+              this.props.onlyText 
+              ? <></>
+              : <PostImg url={this.props.url} />
+            }
+            <PostDescription description={this.props.description} />
+            <PostActions likes={JSON.parse(this.props.likes)} comments={JSON.parse(this.props.comments)} />
             <Comment />
-            <PostComment user={this.props.user}/>
+            <PostComment/>
             
         </div>
         

@@ -10,6 +10,7 @@ import axios from 'axios';
 const Informations = (props) => { 
     const defaultUser = { id: "", username: "", name: "", adress: "", profile_photo: "", followers: "", following: "", };
     const [user, setUser] = useState(defaultUser)
+    const [navigated, setNavigated] = useState(false)
     const [diffrentUser, setDiffrentUser] = useState(false)
     const [btnText, setBtnText] = useState("edit")
     const loggedUser = useSelector((state) => state.user.user);
@@ -20,7 +21,12 @@ const Informations = (props) => {
     useEffect(() => {
         try {
             if(loggedUser.following) {
-                if(diffrentUser) {
+                if(props.params.username === loggedUser.username){
+                    if(!navigated){
+                        navigate("/profile")
+                        setNavigated(true)
+                    }  
+                }else if(diffrentUser && props.params.username !== loggedUser.username) {
                     const getUserInformations = async ()=>{
                         try {
                             const res = await axios.post("/account/profile", {username: props.params.username})
@@ -34,7 +40,10 @@ const Informations = (props) => {
                                 navigate("/")
                             }
                         } catch (error) {
-                            navigate("/404")
+                            if(!navigated){
+                                navigate("/404")
+                                setNavigated(true)
+                            } 
                         }
                     }
                     getUserInformations()
@@ -47,7 +56,7 @@ const Informations = (props) => {
         } catch (error) {
             console.error("Please login.")
         }
-    }, [loggedUser, props, diffrentUser, navigate]); 
+    }, [loggedUser, props, diffrentUser, navigate, navigated]); 
 
 
     // OWN PROFILE OR DIFFRENT USER PROFILE CHECK
@@ -85,11 +94,9 @@ const Informations = (props) => {
                 const res = await axios.post(`/user/follow/${user.id}`,{follow: user.followers.includes(loggedUser.id)})
                 if(res.data.succeded) {
                     navigate(`/profile/${props.params.username}`)
-                } else {
-                    console.log(res.data.msg);
                 }
             } else {
-                // THERE İS EDIT PROFILE ACTIONS COMES
+                navigate("/profile/edit")
             }
         } catch (error) {
             console.log(error);
@@ -149,7 +156,7 @@ const Informations = (props) => {
                 <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-9/12 px-4">
                     <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda tenetur aut animi similique quas veniam voluptas hic quia ab. Amet!
+                        {user.bio}
                     </p>
                     <Link to="/" className="font-normal text-pink-500 cursor-pointer">Return Main Page</Link>
                     </div>

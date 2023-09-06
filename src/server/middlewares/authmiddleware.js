@@ -19,6 +19,7 @@ try {
           email: user.email,
           name: user.name,
           adress: user.adress,
+          bio: user.bio,
           following: JSON.parse(user.following),
           followers: JSON.parse(user.followers),
           profile_photo: user.profile_photo

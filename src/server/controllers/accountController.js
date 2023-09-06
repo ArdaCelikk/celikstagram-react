@@ -116,8 +116,81 @@ const diffrentUserProfile = async (req,res)=>{
     }
 }
 
+
+const updateUser = async (req,res)=>{
+    try {
+        const {name, email, username, adress, bio} = req.body
+        if(username === res.locals.user.username) {
+            const updateUser = await User.update(
+                {...req.body},
+                {where:{id: res.locals.user.id}}
+            )
+            if(updateUser) {
+                res.status(200).json({
+                    succeded:true,
+                    msg: "Account updated."
+                })
+            } else {
+                res.status(401).json({
+                    succeded:false,
+                    msg: "Account update failed."
+                })
+            }
+        } else if(username !== res.locals.user.username) {
+            const checkUsername = await User.findAll({where:{username: username}})
+            if(checkUsername.username) {
+                res.status(200).json({
+                    succeded: false,
+                    msg: "Username already taken. Please enter diffrent username."
+                })
+            } else {
+                const updateUser = await User.update(
+                    {...req.body},
+                    {where:{id: res.locals.user.id}}
+                )
+                if(updateUser) {
+                    res.status(200).json({
+                        succeded: true,
+                        msg: "User updated."
+                    })
+                } else {
+                    res.status(401).json({
+                        succeded: false,
+                        msg: "Account update failed."
+                    })
+                }
+            }
+        }
+    } catch (error) {
+        res.status(500).json({
+            succeded:false,
+            msg: error.message
+        })
+    }
+}
+
+const logout =async (req,res)=>{
+    try {
+        await res.cookie("token", "", {
+            maxAge: 1
+        });
+        res.status(200).json({
+            succeded: true,
+            msg: "logged out"
+        })
+    } catch (error) {
+        res.status(500).json({
+            succeded:false,
+            msg: error.message
+        })
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
-    diffrentUserProfile
+    diffrentUserProfile,
+    updateUser,
+    logout
+    
 }

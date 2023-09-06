@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import NotFoundPage from './components/NotFoundPage';
 import EditProfile from './components/profile/EditProfile';
+import LogOut from './components/LogOut';
 
 
 
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/profile/:username",
     element: <Profile />
+  },
+  {
+    path: "/logout",
+    element: <LogOut />
   },
   {
     path: "*",

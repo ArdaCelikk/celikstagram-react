@@ -7,6 +7,10 @@ const UserProfile = (props) => {
     const navigate =useNavigate()
     const defaultUser = { id: "", username: "", name: "", adress: "", profile_photo: "", followers: "", following: "", };
     const reducerUser = useSelector((state) => state.user.user);
+    const posts = useSelector((state) => state.posts.posts);
+
+    const postCount = []
+    posts.map(post=> post.user_id === reducerUser.id && postCount.push(post) )
     // STATES
     const [user, setUser] = useState(defaultUser);
      
@@ -38,7 +42,7 @@ const UserProfile = (props) => {
                 </div>
                 <div className="flex justify-center items-center gap-2 my-3">
                     <div className="font-semibold text-center mx-4">
-                        <p className="text-black">102</p>
+                        <p className="text-black">{postCount.length}</p>
                         <span className="text-gray-400">Posts</span>
                     </div>
                     <div className="font-semibold text-center mx-4">

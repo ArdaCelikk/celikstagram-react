@@ -3,6 +3,7 @@ import Nav from "./Nav"
 import Main from './Main'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserInformations } from "../../redux/userSlice"
+import { setPosts } from "../../redux/postSlice"
 import axios from 'axios'
 
 
@@ -16,6 +17,19 @@ const App = (props) => {
           dispatch(setUserInformations(res.data.user))
         }
       }
+
+      const posts = async ()=> {
+        try {
+          const res = await axios.post("/post")
+          if(res.data.succeded) {
+            dispatch(setPosts(res.data.posts))
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
+
+      posts()
       userInfos()
     } catch (error) {
       console.log(error);
