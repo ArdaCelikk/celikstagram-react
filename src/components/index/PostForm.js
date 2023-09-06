@@ -1,14 +1,27 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setPosts } from "../../redux/postSlice"
 
 const PostForm = () => {
-    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [file, setFile] = useState()
     const [description, setDescription] = useState()
 
+
+    const reloadPosts = async ()=> {
+        try {
+          const res = await axios.post("/post")
+          if(res.data.succeded) {
+            dispatch(setPosts(res.data.posts))
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+    }
+
     const onFileSelected = (e)=>{
-        setFile(true)
+        setFile(e.target.files[0])
     }
 
     const onChangeText = (e)=>{
@@ -19,7 +32,12 @@ const PostForm = () => {
         try {
             e.preventDefault();
             if(file) {
-                // If photo uploaded 
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append("description", description)
+                formData.append("onlyText", !file)
+                const res = await axios.post("/post/create",formData)
+                console.log(res);
             } else {
                 if(description) {
                     const res = await axios.post("/post/create", {
@@ -28,7 +46,7 @@ const PostForm = () => {
                         file: file
                     })
                     if(res.data.succeded) {
-                        navigate("/")
+                        reloadPosts()
                     }
                 } else {
                     e.target.message.style.border = "2px solid red"
@@ -38,13 +56,13 @@ const PostForm = () => {
                 }
             }
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
         }
     }
   return (
-    <form onSubmit={onFormSubmit} className="bg-white shadow rounded-lg mb-6 p-4">
+    <form onSubmit={onFormSubmit} encType='multipart/form-data' className="bg-white shadow rounded-lg mb-6 p-4">
         <textarea onChange={onChangeText} name="message" placeholder="Type something..." className="w-full rounded-lg p-2 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"></textarea>
-        <input accept='.jpg, .png, .jpeg' className='hidden' defaultValue={description} onChange={onFileSelected} type="file" name='postImg' id='postImg' />
+        <input accept='.jpg, .png, .jpeg' className='hidden' onChange={onFileSelected} type="file" name='postImg' id='postImg' />
         <footer className="flex justify-between mt-2">
             <div className="flex gap-2">
                 <label htmlFor='postImg' className={`${file ? "bg-blue-500" : ""} flex items-center transition ease-out duration-300 hover:bg-blue-500 hover:text-white bg-blue-100 w-8 h-8 px-2 rounded-full text-blue-400 cursor-pointer`}>
