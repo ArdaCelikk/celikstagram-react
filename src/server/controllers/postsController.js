@@ -27,7 +27,6 @@ const createPost = async (req,res)=>{
                 })
             }
         } else {
-            console.log(req.files);
             const result = await cloudinary.uploader.upload(
                 req.files.image.tempFilePath,
                 {

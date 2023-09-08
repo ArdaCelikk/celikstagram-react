@@ -32,7 +32,7 @@ const UserProfile = (props) => {
             <div className="bg-white shadow rounded-lg p-10">
                 <div className="flex flex-col gap-1 text-center items-center">
                     <Link to="/profile">
-                        <img className="h-32 w-32 bg-white p-2 rounded-full shadow mb-4" src={user.profile_photo} alt="" />
+                        <div style={{backgroundImage: `url(${user.profile_photo})`}} className="h-32 w-32 bg-white p-2 rounded-full shadow mb-4 bg-center bg-cover bg-no-repeat"  ></div>
                     </Link>
                     <p className="font-semibold">{user.username}</p>
                     <div className="text-sm leading-normal text-gray-400 flex justify-center items-center">

@@ -122,6 +122,8 @@ class Login extends Component {
                         id="username"
                         type="text"
                         name="username"
+                        required
+                        maxLength="13"
                         className="
                             text-sm
                             placeholder-gray-500
@@ -165,6 +167,7 @@ class Login extends Component {
                         <input
                         id="password"
                         type="password"
+                        required
                         name="password"
                         className="
                             text-sm

@@ -1,0 +1,21 @@
+.alert-box {
+    width: 0;
+    transition-duration: 0.5s;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.alert-box div{
+    opacity: 0;
+}
+
+.alert-box.active div {
+    opacity: 1;
+    transition: opacity 0.2s ease 0.7s;
+}
+
+.alert-box.active {
+    width: 300px;
+    min-height: 50px;
+}
+

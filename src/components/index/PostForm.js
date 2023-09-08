@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setPosts } from "../../redux/postSlice"
 
-const PostForm = () => {
+const PostForm = (props) => {
     const dispatch = useDispatch()
     const [file, setFile] = useState()
     const [description, setDescription] = useState()
@@ -37,7 +37,13 @@ const PostForm = () => {
                 formData.append("description", description)
                 formData.append("onlyText", !file)
                 const res = await axios.post("/post/create",formData)
-                console.log(res);
+                if(res.data.succeded) {
+                    reloadPosts()
+                    setFile()
+                    props.showAlert(res.data.msg)
+                } else {
+                    props.showAlert(res.data.msg)
+                }
             } else {
                 if(description) {
                     const res = await axios.post("/post/create", {
@@ -47,6 +53,7 @@ const PostForm = () => {
                     })
                     if(res.data.succeded) {
                         reloadPosts()
+                        props.showAlert(res.data.msg)
                     }
                 } else {
                     e.target.message.style.border = "2px solid red"

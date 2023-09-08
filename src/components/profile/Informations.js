@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import withRouter from "../withRouter"
 import axios from 'axios';
+import Alert from '../alert/Alert';
+import { setUserInformations } from '../../redux/userSlice';
 
 
 
@@ -13,8 +15,10 @@ const Informations = (props) => {
     const [navigated, setNavigated] = useState(false)
     const [diffrentUser, setDiffrentUser] = useState(false)
     const [btnText, setBtnText] = useState("edit")
+    const [alertMsg, setAlertMsg] = useState("")
     const loggedUser = useSelector((state) => state.user.user);
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     // USER LOGGED?
     // IF ITS OTHER USER PROFILE TAKES A USER INFORMATİONS
@@ -102,6 +106,28 @@ const Informations = (props) => {
             console.log(error);
         }
     }
+    
+    const onFileChanged = async (e)=>{
+        try {
+            const formData = new FormData();
+            formData.append('image', e.target.files[0]);
+            const res = await axios.post("/user/changephoto", formData)
+            if(res.data.succeded) {
+                await dispatch(setUserInformations(res.data.user))
+                setAlertMsg(res.data.msg)
+                setTimeout(() => {
+                    setAlertMsg("")
+                }, 6000);
+            } else {
+                setAlertMsg(res.data.msg)
+                setTimeout(() => {
+                    setAlertMsg("")
+                }, 6000);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
 
@@ -111,11 +137,12 @@ const Informations = (props) => {
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
             <div className="px-6">
                 <div className="flex flex-wrap justify-center">
-                <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                <label htmlFor={diffrentUser ? "" : 'profile_photo'} className="cursor-pointer w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                     <div className="relative">
-                    <img alt="..." src={user.profile_photo} className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
+                        {diffrentUser ? <></> : <input onChange={onFileChanged} className='hidden' type="file" name="profile_photo" id="profile_photo" />}
+                        <div style={{backgroundImage: `url(${user.profile_photo})`,width: "150px", height: "150px"}} className="shadow-xl bg-no-repeat bg-center bg-cover rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 "></div>
                     </div>
-                </div>
+                </label>
                 <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                     <div className="py-6 px-3 mt-32 sm:mt-0 flex justify-evenly">
                     <button onClick={followButtonClick} className="bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button">
@@ -165,6 +192,7 @@ const Informations = (props) => {
                 </div>
             </div>
             </div>
+            {alertMsg && <Alert profile_photo={user.profile_photo} username={user.username} text={alertMsg} />}
         </div>
   )
 }

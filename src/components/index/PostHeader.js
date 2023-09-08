@@ -6,7 +6,7 @@ export default class PostHeader extends Component {
     return (
         <div className="flex flex-row px-2 py-3 mx-3">
             <div className="w-auto h-auto rounded-full border-2 border-white-500">
-                <img className="w-12 h-12 object-cover rounded-full shadow cursor-pointer" alt="User avatar" src={this.props.user.profile_photo} />
+                <div style={{backgroundImage: `url(${this.props.user.profile_photo})`}} className="w-12 h-12 object-cover rounded-full shadow cursor-pointer bg-cover bg-no-repeat bg-center" ></div>
             </div>
             <div className="flex flex-col mb-2 ml-4 mt-1">
                 <div className="text-gray-600 text-sm font-semibold">

@@ -118,6 +118,7 @@ class Register extends Component {
                         <input
                         id="name"
                         type="text"
+                        required
                         name="name"
                         className="
                             text-sm
@@ -142,7 +143,7 @@ class Register extends Component {
                         <i className="fas fa-at text-blue-500"></i>
                         </div>
 
-                        <input id="username" type="text" name="username" className=" text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 " placeholder="Enter your username" />
+                        <input required maxLength="13" id="username" type="text" name="username" className=" text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 " placeholder="Enter your username" />
                     </div>
                     </div>
                     <div className="flex flex-col mb-5">
@@ -154,7 +155,7 @@ class Register extends Component {
                         <i className="fas fa-at text-blue-500"></i>
                         </div>
 
-                        <input id="email" type="email" name="email" className=" text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 " placeholder="Enter your email" />
+                        <input id="email" required type="email" name="email" className=" text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 " placeholder="Enter your email" />
                     </div>
                     </div>
                     <div className="flex flex-col mb-6">
@@ -182,6 +183,7 @@ class Register extends Component {
                         id="password"
                         type="password"
                         name="password"
+                        required
                         className="
                             text-sm
                             placeholder-gray-500

@@ -1,4 +1,6 @@
 const User = require("../models").users
+const cloudinary = require('cloudinary').v2
+
 
 const followUser = async (req,res)=>{
     try {
@@ -46,6 +48,50 @@ const followUser = async (req,res)=>{
     }
 }
 
+
+const changeProfilePhoto = async (req,res)=>{
+    try {
+        const result = await cloudinary.uploader.upload(
+            req.files.image.tempFilePath,
+            {
+                use_filename: true,
+                folder: "celikstagram"
+            }
+        )
+        if(result) {
+            const updateUser = await User.update({profile_photo: result.secure_url}, {where:{id:res.locals.user.id}})
+            if(updateUser) {
+                const user = await User.findOne({where: {id: res.locals.user.id}})
+                if(user) {
+                    user.followers = JSON.parse(user.followers)
+                    user.following = JSON.parse(user.following)
+                    res.status(200).json({
+                        succeded: true,
+                        user: user,
+                        msg: "Profile photo changed."
+                    })
+                }
+            } else {
+                res.status(422).json({
+                    succeded: false,
+                    msg: "Profile picture could not be updated."
+                })
+            }
+        } else {
+            res.status(422).json({
+                succeded: false,
+                msg: "Photo not uploaded."
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            succeded: false,
+            msg: error.message
+        })
+    }
+}
+
 module.exports = {
-    followUser
+    followUser,
+    changeProfilePhoto
 }
