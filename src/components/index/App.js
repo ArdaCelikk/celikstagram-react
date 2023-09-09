@@ -3,7 +3,7 @@ import Nav from "./Nav"
 import Main from './Main'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserInformations } from "../../redux/userSlice"
-import { setPosts } from "../../redux/postSlice"
+import { setPosts, setComments } from "../../redux/postSlice"
 import axios from 'axios'
 
 
@@ -15,6 +15,17 @@ const App = (props) => {
         const res = await axios.post("/informations/userinformations") 
         if(res.data.succeded) {
           dispatch(setUserInformations(res.data.user))
+        }
+      }
+
+      const comments = async ()=>{
+        try {
+          const res = await axios.post("/post/comments")
+          if(res.data.succeded) {
+            dispatch(setComments(res.data.comments))
+          }
+        } catch (error) {
+          console.log(error);
         }
       }
 
@@ -31,6 +42,7 @@ const App = (props) => {
 
       posts()
       userInfos()
+      comments()
     } catch (error) {
       console.log(error);
     }
