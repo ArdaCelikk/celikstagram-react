@@ -22,4 +22,6 @@ export const postSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { setPosts, setComments } = postSlice.actions
 
+
+
 export default postSlice.reducer

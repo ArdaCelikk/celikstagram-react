@@ -11,6 +11,7 @@ const App = (props) => {
   const dispatch = useDispatch()
   useEffect(()=>{
     try {
+      
       const userInfos = async ()=>{
         const res = await axios.post("/informations/userinformations") 
         if(res.data.succeded) {
@@ -47,7 +48,6 @@ const App = (props) => {
       console.log(error);
     }
   },[dispatch])
-
   const loading = useSelector((state) => state.user.loading);
 
 

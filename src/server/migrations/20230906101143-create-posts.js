@@ -33,10 +33,6 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: JSON.stringify([])
       },
-      comments: {
-        type: Sequelize.STRING,
-        defaultValue: JSON.stringify([])
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

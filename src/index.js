@@ -12,6 +12,7 @@ import store from './redux/store';
 import NotFoundPage from './components/NotFoundPage';
 import EditProfile from './components/profile/EditProfile';
 import LogOut from './components/LogOut';
+import PostPage from './components/postPage/PostPage';
 
 
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/profile/:username",
     element: <Profile />
+  },
+  {
+    path: "/post/:id",
+    element: <PostPage />
   },
   {
     path: "/logout",

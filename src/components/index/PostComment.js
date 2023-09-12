@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import React from 'react'
 import axios from 'axios'
 import { setComments } from '../../redux/postSlice'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -10,7 +11,8 @@ import { setComments } from '../../redux/postSlice'
 const PostComment = (props) => {
   const user = useSelector((state) => state.user.user)
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
+  
 
   const shareComment = async (e)=>{
     try {
@@ -23,6 +25,9 @@ const PostComment = (props) => {
         if(res.data.succeded) {
             dispatch(setComments(res.data.comments))
             e.target.comment.value = ""
+            if(props.commentCount > 2) {
+                navigate(`/post/${postId}`)
+            }
         }
     } catch (error) {
         console.log(error);

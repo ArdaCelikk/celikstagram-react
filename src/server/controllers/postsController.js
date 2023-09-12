@@ -106,7 +106,7 @@ const likePost = async (req,res)=>{
         if(post) {
             if(likes.includes(res.locals.user.id)) {
                 likes = await likes.filter(id => id !== res.locals.user.id);
-                const updatePost = Posts.update({likes: JSON.stringify(likes)}, {where:{id:postID}})
+                const updatePost = await Posts.update({likes: JSON.stringify(likes)}, {where:{id:postID}})
                 if(updatePost) {
                     const posts = await Posts.findAll({
                         include: [{
@@ -252,10 +252,69 @@ const createComment =async (req,res)=>{
     }
 }
 
+
+
+
+const sendPostComment = async (req,res)=>{
+    try {
+        const postComments = await Comments.findAll({
+            include: [
+              {
+                model: User,
+                attributes: ['username', 'profile_photo'], // Kullanıcı adı ve profil fotoğrafı gibi özellikleri çekme
+              },
+            ],
+            where: {
+                postId: req.params.id
+            }
+        });
+        if(postComments) {
+            res.status(200).json({
+                succeded: true,
+                message: "Post comments sended.",
+                postComments: postComments
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            succeded: false,
+            msg: error.message
+        })
+    }
+}
+
+
+const sendOnePost = async (req,res)=>{
+    try {
+        const post = await Posts.findOne({
+            include: [{
+              model: User,
+              attributes: ["username", "name", "profile_photo"]
+            }],
+            where:{id:req.params.id}
+        })
+        post.likes = JSON.parse(post.likes)
+        if(post) {
+            res.status(200).json({
+                succeded: true,
+                message: "post sended.",
+                post: post
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            succeded: false,
+            msg: error.message
+        })
+    }
+}
+
 module.exports = {
     createPost,
     sendPosts,
     likePost,
     getComments,
-    createComment
+    createComment,
+    sendPostComment,
+    sendOnePost
 }

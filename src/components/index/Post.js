@@ -11,6 +11,13 @@ import ViewPostBtn from './ViewPostBtn'
 
 const Post = (props) => {
   let count = 0
+  // const [likes, setLikes] = useState()
+  // useState(()=>{
+  //   const setLike = async ()=>{
+  //     setLikes(await JSON.parse())
+  //   }
+  // })
+  console.log(props.likes);
   const comments = useSelector((state) => state.posts.comments);
   return (
     <div className="bg-white shadow rounded-lg mb-6">
@@ -21,7 +28,7 @@ const Post = (props) => {
         : <PostImg url={props.url} />
       }
       <PostDescription description={props.description} />
-      <PostActions likes={JSON.parse(props.likes)} comments={JSON.parse(props.comments)} postID={props.id} />
+      <PostActions likes={JSON.parse(props.likes)} postID={props.id} />
       <ViewPostBtn postId={props.id}/>
       {
         // eslint-disable-next-line      
@@ -37,7 +44,7 @@ const Post = (props) => {
           }
         })
       }
-      <PostComment postId={props.id}/>
+      <PostComment commentCount={count} postId={props.id}/>
       
   </div>
   )
