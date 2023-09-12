@@ -11,10 +11,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUserInformations } from '../../redux/userSlice'
 import { setComments, setPosts } from '../../redux/postSlice'
 import Comment from "../index/Comment"
+import { useNavigate } from 'react-router-dom'
 
 
 const PostPage = (props) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(0)
     useEffect(()=>{
         try {
@@ -39,15 +41,17 @@ const PostPage = (props) => {
           }
     
           const posts = async ()=> {
-            try {
-              const res = await axios.post(`/post/${props.params.id}`)
-              if(res.data.succeded) {
-                dispatch(setPosts(res.data.post))
-                setLoading(load => ++load)
+              try {
+                const res = await axios.post(`/post/${props.params.id}`)
+                if(res.data.succeded) {
+                  dispatch(setPosts(res.data.post))
+                  setLoading(load => ++load)
+                } else {
+                  navigate("/")
+                }
+              } catch (error) {
+                navigate("/")
               }
-            } catch (error) {
-              console.log(error);
-            }
             }
     
           posts()
@@ -56,7 +60,7 @@ const PostPage = (props) => {
         } catch (error) {
           console.log(error);
         }
-    },[dispatch, props.params.id,  ])
+    },[dispatch, props.params.id,  navigate])
     const posts = useSelector((state) => state.posts.posts)
     const comments = useSelector((state) => state.posts.comments)
   return (

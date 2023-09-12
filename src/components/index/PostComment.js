@@ -25,7 +25,7 @@ const PostComment = (props) => {
         if(res.data.succeded) {
             dispatch(setComments(res.data.comments))
             e.target.comment.value = ""
-            if(props.commentCount > 2) {
+            if(props.commentCount >= 2) {
                 navigate(`/post/${postId}`)
             }
         }

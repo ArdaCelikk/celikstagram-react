@@ -17,7 +17,7 @@ const Post = (props) => {
   //     setLikes(await JSON.parse())
   //   }
   // })
-  console.log(props.likes);
+  // console.log(props.likes);
   const comments = useSelector((state) => state.posts.comments);
   return (
     <div className="bg-white shadow rounded-lg mb-6">

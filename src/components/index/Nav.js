@@ -7,9 +7,9 @@ export default class Nav extends Component {
     return (
         <nav className="bg-white w-full flex relative shadow justify-between items-center px-8 h-20">
             <div className="inline-flex">
-                <Link className="_o6689fn" to="/">
+                <a className="_o6689fn" href="/">
                     <img src={Celikstagram} className='h-20' alt="" />
-                </Link>
+                </a>
             </div>
         
         

@@ -95,7 +95,7 @@ const Informations = (props) => {
     const followButtonClick = async ()=>{
         try {
             if(diffrentUser) {
-                const res = await axios.post(`/user/follow/${user.id}`,{follow: user.followers.includes(loggedUser.id)})
+                const res = await axios.post(`/user/follow/${user.id}`)
                 if(res.data.succeded) {
                     navigate(`/profile/${props.params.username}`)
                 }

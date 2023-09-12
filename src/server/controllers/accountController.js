@@ -116,7 +116,7 @@ const diffrentUserProfile = async (req,res)=>{
                             profile_photo: user.profile_photo,
                             following: user.following,
                             followers: user.followers,
-                            
+
                         },
                         msg: "User finded and sended."
                     })
@@ -145,46 +145,53 @@ const diffrentUserProfile = async (req,res)=>{
 const updateUser = async (req,res)=>{
     try {
         const {name, email, username, adress, bio} = req.body
-        if(username === res.locals.user.username) {
-            const updateUser = await User.update(
-                {...req.body},
-                {where:{id: res.locals.user.id}}
-            )
-            if(updateUser) {
-                res.status(200).json({
-                    succeded:true,
-                    msg: "Account updated."
-                })
-            } else {
-                res.status(401).json({
-                    succeded:false,
-                    msg: "Account update failed."
-                })
-            }
-        } else if(username !== res.locals.user.username) {
-            const checkUsername = await User.findAll({where:{username: username}})
-            if(checkUsername.username) {
-                res.status(200).json({
-                    succeded: false,
-                    msg: "Username already taken. Please enter diffrent username."
-                })
-            } else {
+        if(name && email && username && adress && bio) {
+            if(username === res.locals.user.username) {
                 const updateUser = await User.update(
                     {...req.body},
                     {where:{id: res.locals.user.id}}
                 )
                 if(updateUser) {
                     res.status(200).json({
-                        succeded: true,
-                        msg: "User updated."
+                        succeded:true,
+                        msg: "Account updated."
                     })
                 } else {
                     res.status(401).json({
-                        succeded: false,
+                        succeded:false,
                         msg: "Account update failed."
                     })
                 }
+            } else if(username !== res.locals.user.username) {
+                const checkUsername = await User.findAll({where:{username: username}})
+                if(checkUsername.username) {
+                    res.status(200).json({
+                        succeded: false,
+                        msg: "Username already taken. Please enter diffrent username."
+                    })
+                } else {
+                    const updateUser = await User.update(
+                        {...req.body},
+                        {where:{id: res.locals.user.id}}
+                    )
+                    if(updateUser) {
+                        res.status(200).json({
+                            succeded: true,
+                            msg: "User updated."
+                        })
+                    } else {
+                        res.status(401).json({
+                            succeded: false,
+                            msg: "Account update failed."
+                        })
+                    }
+                }
             }
+        } else {
+            res.status(403).json({
+                succeded: false,
+                msg: "Informations required."
+            })
         }
     } catch (error) {
         res.status(500).json({
