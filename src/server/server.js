@@ -14,9 +14,9 @@ require("dotenv").config()
 
           
 cloudinary.config({ 
-  cloud_name: 'dbsmn5rue', 
-  api_key: '996447254822419', 
-  api_secret: 'kVjHIiMxbhrz9SSmCLFrvv_7yWU' 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.CLOUDINARY_API_KEY , 
+  api_secret:  process.env.CLOUDINARY_API_SECRET
 });
 
 

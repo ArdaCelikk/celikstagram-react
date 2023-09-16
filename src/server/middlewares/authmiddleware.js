@@ -13,18 +13,32 @@ try {
         next();
       } else {
         const user = await User.findOne({where:{id:decodedToken.id}});
-        res.locals.user = {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          name: user.name,
-          adress: user.adress,
-          bio: user.bio,
-          following: JSON.parse(user.following),
-          followers: JSON.parse(user.followers),
-          profile_photo: user.profile_photo
-        };
-        next();
+        if(user) {
+          res.locals.user = {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            name: user.name,
+            adress: user.adress,
+            bio: user.bio,
+            following: JSON.parse(user.following),
+            followers: JSON.parse(user.followers),
+            profile_photo: user.profile_photo
+          };
+          next();
+        } else {
+          try {
+              await res.cookie("token", "", {
+                  maxAge: 1
+              });
+              res.redirect("/")
+          } catch (error) {
+              res.status(500).json({
+                  succeded:false,
+                  msg: error.message
+              })
+          }
+        }
       }
     });
   } else {
