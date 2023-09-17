@@ -6,7 +6,7 @@ export default class PostImg extends Component {
       <>
             <div className="border-b border-gray-100"></div> 
             <div className="text-gray-400 font-medium text-sm mb-7 mt-6 mx-3 px-2">
-                <img className="rounded w-full" loading='lazy' src={this.props.url} alt='' />
+                <img className="rounded w-full" src={this.props.url} alt='' />
             </div>
       </>
     )

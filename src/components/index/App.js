@@ -52,7 +52,7 @@ const App = (props) => {
 
 
   return (
-    <div className="app bg-gray-100">
+    <div className="app ">
       {
         loading
         ? <><Nav /> <Main /></>

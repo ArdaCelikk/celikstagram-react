@@ -5,6 +5,7 @@ const authMiddleware = require("../middlewares/authmiddleware")
 
 
 router.route("/").post(authMiddleware.authenticateToken,authMiddleware.checkUser,postsController.sendPosts)
+router.route("/:id").delete(authMiddleware.authenticateToken,authMiddleware.checkUser,postsController.deletePost)
 router.route("/create").post(authMiddleware.authenticateToken,authMiddleware.checkUser,postsController.createPost)
 router.route("/like").post(authMiddleware.authenticateToken,authMiddleware.checkUser,postsController.likePost)
 router.route("/sharecomment").post(authMiddleware.authenticateToken,authMiddleware.checkUser,postsController.createComment)

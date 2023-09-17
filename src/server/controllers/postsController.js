@@ -39,7 +39,7 @@ const createPost = async (req,res)=>{
                 if(result) {
                     const createPost = await Posts.create({
                         user_id: res.locals.user.id,
-                        description: description,
+                        description: description === "undefined" ? "" : description,
                         onlyText: false,
                         url: result.secure_url
                     })
@@ -360,6 +360,45 @@ const sendOnePost = async (req,res)=>{
     }
 }
 
+const deletePost = async (req,res) =>{
+    try {
+        const postId = req.params.id 
+        if(postId) {
+            const post = await Posts.findOne({where:{id:postId}})
+            if(post) {
+                const destroyPost = await Posts.destroy({where:{id:postId}})
+                const destroyComments = await Comments.destroy({where:{postId: postId}})
+                if(destroyPost) {
+                    res.status(200).json({
+                        succeded: true,
+                        msg: "Post and post comments deleted."
+                    })
+                } else {
+                    res.status(403).json({
+                        succeded: false,
+                        msg: "Post delete action failed."
+                    })
+                }
+            } else {
+                res.status(404).json({
+                    succeded: false,
+                    msg: "Post not found."
+                })
+            }
+        } else {
+            res.status(403).json({
+                succeded: false,
+                msg: "Post id information required"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            succeded: false,
+            msg: error.message
+        })
+    }
+}
+
 module.exports = {
     createPost,
     sendPosts,
@@ -367,5 +406,6 @@ module.exports = {
     getComments,
     createComment,
     sendPostComment,
-    sendOnePost
+    sendOnePost,
+    deletePost
 }

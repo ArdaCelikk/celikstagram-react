@@ -21,7 +21,7 @@ const Post = (props) => {
   const comments = useSelector((state) => state.posts.comments);
   return (
     <div className="bg-white shadow rounded-lg mb-6">
-      <PostHeader createdAt={props.createdAt} user={props.user} />
+      <PostHeader user_id={props.user_id} postId={props.id} createdAt={props.createdAt} user={props.user} />
       {
         props.onlyText 
         ? <></>

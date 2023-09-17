@@ -13,6 +13,10 @@ export const postSlice = createSlice({
         state.posts = action.payload
         state.loading = true
     },
+    deletePost: (state, action) => {
+      const postIdToDelete = action.payload.id;
+      state.posts = state.posts.filter((post) => post.id !== postIdToDelete);
+    },
     setComments: (state, action)=>{
       state.comments = action.payload
     }
@@ -20,7 +24,7 @@ export const postSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setPosts, setComments } = postSlice.actions
+export const { setPosts, setComments, deletePost } = postSlice.actions
 
 
 
