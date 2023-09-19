@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# Celikstagram Social Media App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Celikstagram! This is a web application that allows users to share posts, follow other users, and interact through comments and likes.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- User registration and authentication.
+- Posting and sharing updates.
+- Following and being followed by other users.
+- Liking posts.
+- Commenting on posts.
+- Profile customization.
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React.js
+- Node.js
+- Express.js
+- Sequelize (ORM)
+- MYSQL (Database)
+- HTML/CSS
+- Redux (State Management)
+- Axios (HTTP Requests)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. Clone the repository:
+- git clone [https://github.com/ArdaCelikk/celikstagram-react.git](https://github.com/ArdaCelikk/celikstagram-react.git)
+- cd celikstagram-react
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Install dependencies for the frontend and backend:
+- create a database named 'celikstagram' in MySQL.
+- npm install 
+- cd src
+- cd server
+- npx sequelize-cli db:migrate
+- set up a proxy in the package.json file.
+- create a .env file.
+- configure PROXY_PORT, JWT_PASSWORD, CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET settings in the .env file.
 
-### `npm run build`
+3. Configure the database connection in `/src/server/config/config.json`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Run the development server:
+- npm run start
+- npm run server
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. Access the application in your web browser at `http://localhost:3000`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Usage
 
-### `npm run eject`
+- Register a new account or log in with an existing one.
+- Create and share posts.
+- Follow other users and view their posts on your feed.
+- Delete, Like and comment on posts.
+- Customize your profile information and profile picture.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## License
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
